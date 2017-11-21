@@ -52,9 +52,9 @@ public class PersonControllerTest {
     @Test
     public void whenCallGetPersonsAPI_thenReturnPersonList() throws Exception {
         when(personService.getPersonList()).thenReturn(Lists.newArrayList(
-                new Person("1", "a", "a@gmail.com"),
-                new Person("2", "b", "b@gmail.com"),
-                new Person("3", "c", "c@gmail.com")));
+                new Person(1, "a", "a@gmail.com"),
+                new Person(2, "b", "b@gmail.com"),
+                new Person(3, "c", "c@gmail.com")));
 
 
         mockMvc.perform(get("http://localhost:8080/persons"))

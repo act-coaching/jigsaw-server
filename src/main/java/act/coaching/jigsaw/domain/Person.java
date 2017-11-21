@@ -23,8 +23,6 @@ public class Person {
     @Column
     String email;
 
-
-
     @Column
     String employeeNumber;
 
@@ -63,6 +61,13 @@ public class Person {
         this.id = id;
         this.name= name;
         this.email = email;
+    }
+
+    public Person(int id, String name, String email, String rank){
+        this.id = id;
+        this.name= name;
+        this.email = email;
+        this.rank = rank;
     }
 
 

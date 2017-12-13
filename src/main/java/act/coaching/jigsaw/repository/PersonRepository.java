@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PersonRepository extends Repository<Person,Long> {
     List<Person> findAll();
+    List<Person> findByNameContainingIgnoreCase(String name);
 }

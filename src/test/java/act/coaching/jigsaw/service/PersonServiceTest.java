@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -31,27 +31,48 @@ public class PersonServiceTest {
     PersonRepository personRepository;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
         when(personRepository.findAll()).thenReturn(Lists.newArrayList(
                 new Person(1, "a", "a@gmail.com", "L2"),
                 new Person(2, "b", "b@gmail.com", "L3"),
                 new Person(3, "c", "c@gmail.com", "L5")));
+        when(personRepository.findByNameContainingIgnoreCase("abc")).thenReturn(Lists.newArrayList(
+                new Person(1, "babc", "a@gmail.com", "L2"),
+                new Person(2, "0abcd", "a@gmail.com", "L2"),
+                new Person(3, "dddabc", "a@gmail.com", "L2"),
+                new Person(4, "abc", "a@gmail.com", "L2"),
+                new Person(5, "abcc", "b@gmail.com", "L3")));
     }
 
     @Test
-    public void whenPersonServiceCallGetPersonList_thenCallOncePersonRepository_findAll(){
+    public void whenPersonServiceCallGetPersonList_thenCallOncePersonRepository_findAll() {
         personService.getPersonList();
-        verify(personRepository,times(1)).findAll();
+        verify(personRepository, times(1)).findAll();
     }
 
     @Test
-    public void whenPersonServiceCallGetPersonList_thenReturnChangedRankString(){
+    public void whenPersonServiceCallGetPersonList_thenReturnChangedRankString() {
         List<Person> personList = personService.getPersonList();
         assertThat(personList.get(0).getRank(), is("L2(Engineer)"));
         assertThat(personList.get(1).getRank(), is("L3(Senior Engineer)"));
         assertThat(personList.get(2).getRank(), is("L5(Principle Engineer)"));
+    }
 
+    @Test
+    public void whenPersonServiceCallGetPersonsByName_thenReturnPersonsListWithGivenName() {
+        //when
+        List<Person> personList = personService.getPersonsByName("abc");
+
+        //then
+        assertThat(personList.size(), is(5));
+        assertThat(personList, everyItem(hasProperty("name", containsString("abc"))));
+    }
+
+    @Test
+    public void whenPersonServiceCallGetPersonByName_thenCallOncePersonRepository_findByName() {
+        personService.getPersonsByName("abc");
+        verify(personRepository, times(1)).findByNameContainingIgnoreCase("abc");
     }
 
 }

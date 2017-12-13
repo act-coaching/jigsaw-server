@@ -44,4 +44,7 @@ public class PersonServiceImpl implements PersonService {
         });
     }
 
+    public List<Person> getPersonsByName(String name) {
+        return personRepository.findByNameContainingIgnoreCase(name);
+    }
 }

@@ -67,4 +67,20 @@ public class PersonControllerTest {
         verify(personService, times(1)).getPersonList();
     }
 
+
+    @Test
+    public void whenCallGetPersonsByNameAPI_thenReturnPersonResultList() throws Exception {
+        when(personService.getPersonsByName("abc")).thenReturn(Lists.newArrayList(
+                new Person(1, "abc", "a@gmail.com", "L2"),
+                new Person(2, "abc", "b@gmail.com", "L3")));
+
+
+        mockMvc.perform(get("http://localhost:8080/persons/name/abc"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0]['name']").value("abc"))
+                .andExpect(jsonPath("$.data[1]['name']").value("abc"))
+                .andExpect(jsonPath("$.data", hasSize(2)));
+        verify(personService, times(1)).getPersonsByName("abc");
+    }
 }

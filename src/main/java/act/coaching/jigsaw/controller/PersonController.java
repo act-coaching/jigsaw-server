@@ -22,7 +22,7 @@ public class PersonController {
         return new TransferVO(personService.getPersonList());
     }
 
-    @RequestMapping("/persons/name/{name}")
+    @RequestMapping("/dashboard/name/{name}")
     public TransferVO getPersonsByName(@PathVariable("name") String name){
         return new TransferVO(personService.getPersonsByName(name));
     }

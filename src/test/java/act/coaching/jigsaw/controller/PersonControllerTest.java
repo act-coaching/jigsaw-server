@@ -75,7 +75,7 @@ public class PersonControllerTest {
                 new Person(2, "abc", "b@gmail.com", "L3")));
 
 
-        mockMvc.perform(get("http://localhost:8080/persons/name/abc"))
+        mockMvc.perform(get("http://localhost:8080/dashboard/name/abc"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data[0]['name']").value("abc"))

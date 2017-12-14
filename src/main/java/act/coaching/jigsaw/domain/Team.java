@@ -1,39 +1,72 @@
 package act.coaching.jigsaw.domain;
 
 public class Team {
-    private String name;
+    private String team;
 
-    private String groupName;
+    private String department;
 
-    private Person person;
+    private Integer totalCount;
 
-    public Team(String name, String groupName, Person person) {
-        this.name = name;
-        this.groupName = groupName;
-        this.person = person;
+    private Integer earning;
+
+    private Integer working;
+
+    private Integer staying;
+
+    public Team(String team, String department, Integer totalCount, Integer earning, Integer working, Integer staying) {
+        this.team = team;
+        this.department = department;
+        this.totalCount = totalCount;
+        this.earning = earning;
+        this.working = working;
+        this.staying = staying;
     }
 
-    public String getName() {
-        return name;
+    public String getTeam() {
+        return team;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeam(String team) {
+        this.team = team;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public Person getPerson() {
-        return person;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Integer getEarning() {
+        return earning;
+    }
+
+    public void setEarning(Integer earning) {
+        this.earning = earning;
+    }
+
+    public Integer getWorking() {
+        return working;
+    }
+
+    public void setWorking(Integer working) {
+        this.working = working;
+    }
+
+    public Integer getStaying() {
+        return staying;
+    }
+
+    public void setStaying(Integer staying) {
+        this.staying = staying;
     }
 }

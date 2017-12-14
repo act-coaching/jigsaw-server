@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public class TeamService {
-    public List<Team> getAll(String teamId) {
+    public List<Team> getAll() {
         return null;
     }
 }

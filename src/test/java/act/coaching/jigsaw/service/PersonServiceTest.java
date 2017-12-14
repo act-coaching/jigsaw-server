@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -33,16 +34,24 @@ public class PersonServiceTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+
+        ArrayList<Person> personList = Lists.newArrayList(
+                new Person(1, "babc", "a@gmail.com", "L2" , "abc" , "abc"),
+                new Person(2, "0abcd", "a@gmail.com", "L2" , "abcd" , "abcd"),
+                new Person(3, "dddabc", "a@gmail.com", "L2" , "a" , "a"),
+                new Person(4, "abc", "a@gmail.com", "L2" , "ccaa" , "aadc"),
+                new Person(5, "abcc", "b@gmail.com", "L3", "abc" , "adec"));
+
+
         when(personRepository.findAll()).thenReturn(Lists.newArrayList(
-                new Person(1, "a", "a@gmail.com", "L2"),
-                new Person(2, "b", "b@gmail.com", "L3"),
-                new Person(3, "c", "c@gmail.com", "L5")));
-        when(personRepository.findByNameContainingIgnoreCase("abc")).thenReturn(Lists.newArrayList(
-                new Person(1, "babc", "a@gmail.com", "L2"),
-                new Person(2, "0abcd", "a@gmail.com", "L2"),
-                new Person(3, "dddabc", "a@gmail.com", "L2"),
-                new Person(4, "abc", "a@gmail.com", "L2"),
-                new Person(5, "abcc", "b@gmail.com", "L3")));
+                new Person(1, "a", "a@gmail.com", "L2" , "a" , "a"),
+                new Person(2, "b", "b@gmail.com", "L3", "a" , "a"),
+                new Person(3, "c", "c@gmail.com", "L5", "a" , "a")));
+
+
+        when(personRepository.findByNameContainingIgnoreCase("abc")).thenReturn(personList);
+
+        when(personRepository.findByProjectCode("abc")).thenReturn(personList);
     }
 
     @Test
@@ -75,4 +84,19 @@ public class PersonServiceTest {
         verify(personRepository, times(1)).findByNameContainingIgnoreCase("abc");
     }
 
+    @Test
+    public void whenPersonServiceCallGetPersonsByProjectCode_thenReturnPersonsListWithGivenName() {
+        //when
+        List<Person> personList = personService.getPersonsByProjectCode("abc");
+
+        //then
+        assertThat(personList.size(), is(5));
+        assertThat(personList, everyItem(hasProperty("name", containsString("abc"))));
+    }
+
+    @Test
+    public void whenPersonServiceCallGetPersonByProjectCode_thenCallOncePersonRepository_findByName() {
+        personService.getPersonsByProjectCode("abc");
+        verify(personRepository, times(1)).findByProjectCode("abc");
+    }
 }

@@ -47,4 +47,9 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> getPersonsByName(String name) {
         return personRepository.findByNameContainingIgnoreCase(name);
     }
+
+    @Override
+    public List<Person> getPersonsByProjectCode(String projectCode) {
+        return personRepository.findByProjectCode(projectCode);
+    }
 }

@@ -27,4 +27,9 @@ public class PersonController {
         return new TransferVO(personService.getPersonsByName(name));
     }
 
+    @RequestMapping("/dashboard/projectCode/{projectCode}")
+    public TransferVO getPersonsByProjectCode(@PathVariable("projectCode") String projectCode){
+        return new TransferVO(personService.getPersonsByProjectCode(projectCode));
+    }
+
 }

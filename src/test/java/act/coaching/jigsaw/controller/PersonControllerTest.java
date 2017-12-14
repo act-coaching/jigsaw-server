@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -71,8 +72,8 @@ public class PersonControllerTest {
     @Test
     public void whenCallGetPersonsByNameAPI_thenReturnPersonResultList() throws Exception {
         when(personService.getPersonsByName("abc")).thenReturn(Lists.newArrayList(
-                new Person(1, "abc", "a@gmail.com", "L2"),
-                new Person(2, "abc", "b@gmail.com", "L3")));
+                new Person(1, "abc", "a@gmail.com", "L2","a","a"),
+                new Person(2, "abc", "b@gmail.com", "L3","a","a")));
 
 
         mockMvc.perform(get("http://localhost:8080/dashboard/name/abc"))
@@ -83,4 +84,22 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.data", hasSize(2)));
         verify(personService, times(1)).getPersonsByName("abc");
     }
+    @Test
+    public void whenCallGetPersonsByProjectAPI_thenReturnPersonResultList() throws Exception {
+        when(personService.getPersonsByProjectCode(anyString())).thenReturn(Lists.newArrayList(
+                new Person(1, "abc", "a@gmail.com", "L2","code_abc","abcc"),
+                new Person(2, "abc", "b@gmail.com", "L3","code_abc","abcc")));
+
+
+        mockMvc.perform(get("http://localhost:8080/dashboard/projectCode/code_abc"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0]['projectCode']").value("code_abc"))
+                .andExpect(jsonPath("$.data[0]['projectName']").value("abcc"))
+                .andExpect(jsonPath("$.data[1]['projectCode']").value("code_abc"))
+                .andExpect(jsonPath("$.data[1]['projectName']").value("abcc"))
+                .andExpect(jsonPath("$.data", hasSize(2)));
+        verify(personService, times(1)).getPersonsByProjectCode("code_abc");
+    }
+
 }

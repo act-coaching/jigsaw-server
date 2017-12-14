@@ -63,11 +63,21 @@ public class Person {
         this.email = email;
     }
 
-    public Person(int id, String name, String email, String rank){
+    public Person(int id, String name, String email, String projectCode, String projectName){
+        this.id = id;
+        this.name= name;
+        this.email = email;
+        this.projectCode = projectCode;
+        this.projectName = projectName;
+    }
+
+    public Person(int id, String name, String email, String rank, String projectCode, String projectName){
         this.id = id;
         this.name= name;
         this.email = email;
         this.rank = rank;
+        this.projectCode = projectCode;
+        this.projectName = projectName;
     }
 
 

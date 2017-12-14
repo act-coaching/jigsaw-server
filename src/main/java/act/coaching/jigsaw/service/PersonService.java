@@ -8,5 +8,5 @@ public interface PersonService {
 
     List<Person> getPersonList();
     List<Person> getPersonsByName(String name);
-
+    List<Person> getPersonsByProjectCode(String projectCode);
 }

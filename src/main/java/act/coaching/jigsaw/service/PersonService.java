@@ -9,4 +9,4 @@ public interface PersonService {
     List<Person> getPersonList();
     List<Person> getPersonsByName(String name);
 
-    }
+}

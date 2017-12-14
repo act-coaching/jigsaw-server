@@ -1,25 +1,51 @@
 package act.coaching.jigsaw.domain;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Team")
 public class Team {
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    @Column
     private String team;
 
+    @Column
     private String department;
 
+    @Column
     private Integer totalCount;
 
+    @Column
     private Integer earning;
 
+    @Column
     private Integer working;
 
+    @Column
     private Integer staying;
 
-    public Team(String team, String department, Integer totalCount, Integer earning, Integer working, Integer staying) {
+    public Team() {
+    }
+
+    public Team(Integer id, String team, String department, Integer totalCount, Integer earning, Integer working, Integer staying) {
+        this.id = id;
         this.team = team;
         this.department = department;
         this.totalCount = totalCount;
         this.earning = earning;
         this.working = working;
         this.staying = staying;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTeam() {

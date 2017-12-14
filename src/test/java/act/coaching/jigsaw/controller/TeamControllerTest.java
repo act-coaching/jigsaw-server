@@ -48,8 +48,8 @@ public class TeamControllerTest {
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(teamController).build();
 
-        firstTeam = new Team("A Team", "A Group", 9, 1, 3, 5);
-        secondTeam = new Team("B Team", "A Group", 10, 0, 10, 0);
+        firstTeam = new Team(1, "A Team", "A Group", 9, 1, 3, 5);
+        secondTeam = new Team(2, "B Team", "A Group", 10, 0, 10, 0);
     }
 
     @Test
@@ -81,12 +81,14 @@ public class TeamControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize((2))))
+                .andExpect(jsonPath("$.data[0]['id']").value("1"))
                 .andExpect(jsonPath("$.data[0]['team']").value("A Team"))
                 .andExpect(jsonPath("$.data[0]['department']").value("A Group"))
                 .andExpect(jsonPath("$.data[0]['totalCount']").value(9))
                 .andExpect(jsonPath("$.data[0]['earning']").value("1"))
                 .andExpect(jsonPath("$.data[0]['working']").value("3"))
                 .andExpect(jsonPath("$.data[0]['staying']").value("5"))
+                .andExpect(jsonPath("$.data[1]['id']").value("2"))
                 .andExpect(jsonPath("$.data[1]['team']").value("B Team"))
                 .andExpect(jsonPath("$.data[1]['department']").value("A Group"))
                 .andExpect(jsonPath("$.data[1]['totalCount']").value(10))

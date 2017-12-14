@@ -90,3 +90,8 @@ fabric.properties
 
 .idea/inspectionProfiles/
 .idea/modules.xml
+
+.idea/
+build/
+out/
+.gradle/

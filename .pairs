@@ -1,0 +1,11 @@
+pairs:
+  # <initials>: <Firstname> <Lastname>[; <email-id>]
+  rp: rhyno Park;rhyno
+  tc: teddy cha; teddy
+  mj: mattew jung; mattew
+  ls: lony seo;lony
+email:
+  prefix: pair
+  domain: samsung.com
+  no_solo_prefix: true
+global: false  # Set to true for git-pair to change git configuration for all your projects

@@ -1,7 +1,7 @@
 package act.coaching.jigsaw.controller;
 
-import act.coaching.jigsaw.domain.Person;
-import act.coaching.jigsaw.service.PersonService;
+import act.coaching.jigsaw.domain.Project;
+import act.coaching.jigsaw.service.ProjectService;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,13 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
@@ -26,45 +24,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @WebAppConfiguration
-public class PersonControllerTest {
-
-    @Autowired
-    private WebApplicationContext context;
-
+public class ProjectControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private PersonService personService;
+    private ProjectService projectService;
 
     @InjectMocks
-    private PersonController personController;
+    private ProjectController projectController;
 
     @Before
-    public void setup() {
+    public void setup(){
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(projectController).build();
     }
 
     @Test
-    public void whenCallGetPersonsAPI_thenReturnPersonList() throws Exception {
-        when(personService.getPersonList()).thenReturn(Lists.newArrayList(
-                new Person(1, "a", "a@gmail.com"),
-                new Person(2, "b", "b@gmail.com"),
-                new Person(3, "c", "c@gmail.com")));
+    public void whenCallGetProjectAPI_thenREturnProjectList() throws Exception {
+        when(projectService.getProjectList()).thenReturn(Lists.newArrayList(
+                new Project("타노스프로젝트", "프로젝트111", 5, 1, 4, 0),
+                new Project("미팅프로젝트", "프로젝트112", 100, 5, 90, 5),
+                new Project("액트", "프로젝트113", 3,3 ,0, 0)));
 
-
-        mockMvc.perform(get("http://localhost:8080/dashboard"))
+        mockMvc.perform(get("http://localhost:8080/project"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data[0]['id']").value("1"))
-                .andExpect(jsonPath("$.data[0]['name']").value("a"))
-                .andExpect(jsonPath("$.data[0]['email']").value("a@gmail.com"))
+                .andExpect(jsonPath("$.data[0]['projectName']").value("타노스프로젝트"))
+                .andExpect(jsonPath("$.data[0]['totalCount']").value(5))
                 .andExpect(jsonPath("$.data", hasSize(3)));
-        verify(personService, times(1)).getPersonList();
+        verify(projectService, times(1)).getProjectList();
+
     }
 
 }

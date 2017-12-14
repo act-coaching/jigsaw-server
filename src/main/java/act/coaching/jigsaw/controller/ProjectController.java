@@ -2,7 +2,7 @@ package act.coaching.jigsaw.controller;
 
 
 import act.coaching.jigsaw.domain.TransferVO;
-import act.coaching.jigsaw.service.PersonService;
+import act.coaching.jigsaw.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class PersonController {
+public class ProjectController {
 
     @Autowired
-    PersonService personService;
+    ProjectService projectService;
 
-    @RequestMapping("/dashboard")
-    public TransferVO getPersons(){
+    @RequestMapping("/project")
+    public TransferVO getProjects(){
 
-        return new TransferVO(personService.getPersonList());
+        return new TransferVO(projectService.getProjectList());
     }
+
+
 
 }

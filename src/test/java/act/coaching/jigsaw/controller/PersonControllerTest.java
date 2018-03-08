@@ -1,7 +1,9 @@
 package act.coaching.jigsaw.controller;
 
 import act.coaching.jigsaw.domain.Person;
+import act.coaching.jigsaw.domain.Team;
 import act.coaching.jigsaw.service.PersonService;
+import act.coaching.jigsaw.service.TeamService;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +42,9 @@ public class PersonControllerTest {
     @Mock
     private PersonService personService;
 
+    @Mock
+    private TeamService teamService;
+
     @InjectMocks
     private PersonController personController;
 
@@ -65,6 +70,29 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.data[0]['email']").value("a@gmail.com"))
                 .andExpect(jsonPath("$.data", hasSize(3)));
         verify(personService, times(1)).getPersonList();
+    }
+
+    @Test
+    public void getTeamList_API를_호출했을때_TeamList를_반환한다() throws Exception {
+        when(teamService.getTeamList()).thenReturn(Lists.newArrayList(
+                new Team(1,"개발팀", "개발그룹", 4, 2, 1, 1),
+                new Team(2,"실행팀", "실행그룹", 5, 2, 1, 2),
+                new Team(3,"운영팀", "운영그룹", 10, 5, 3, 2)
+        ));
+
+        mockMvc.perform(get("http://localhost:8080/teams"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0]['id']").value("1"))
+                .andExpect(jsonPath("$.data[0]['team']").value("개발팀"))
+                .andExpect(jsonPath("$.data[0]['department']").value("개발그룹"))
+                .andExpect(jsonPath("$.data[0]['totalNumber']").value("4"))
+                .andExpect(jsonPath("$.data[0]['assignedNumber']").value("2"))
+                .andExpect(jsonPath("$.data[0]['unassignedWorkingNumber']").value("1"))
+                .andExpect(jsonPath("$.data[0]['unassignedNotWorkingNumber']").value("1"))
+                .andExpect(jsonPath("$.data", hasSize(3)));
+
+        verify(teamService, times(1)).getTeamList();
     }
 
 }

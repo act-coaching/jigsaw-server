@@ -70,6 +70,14 @@ public class Person {
         this.rank = rank;
     }
 
+    public Person(int id, String name, String team, String department, String assignType) {
+        this.id = id;
+        this.name = name;
+        this.team = team;
+        this.department = department;
+        this.assignType = assignType;
+    }
+
 
     public int getId() {
         return id;

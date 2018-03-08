@@ -20,10 +20,10 @@ import static org.mockito.Mockito.when;
 public class TeamServiceTest {
 
     @InjectMocks
-    TeamServiceImpl teamService;
+    private TeamServiceImpl teamService;
 
     @Mock
-    PersonRepository personRepository;
+    private PersonRepository personRepository;
 
     @Before
     public void setup(){

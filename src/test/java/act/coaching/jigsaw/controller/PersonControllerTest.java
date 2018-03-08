@@ -1,7 +1,9 @@
 package act.coaching.jigsaw.controller;
 
 import act.coaching.jigsaw.domain.Person;
+import act.coaching.jigsaw.domain.Project;
 import act.coaching.jigsaw.service.PersonService;
+import act.coaching.jigsaw.service.ProjectService;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +42,9 @@ public class PersonControllerTest {
     @Mock
     private PersonService personService;
 
+    @Mock
+    private ProjectService projectService;
+
     @InjectMocks
     private PersonController personController;
 
@@ -65,6 +70,29 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.data[0]['email']").value("a@gmail.com"))
                 .andExpect(jsonPath("$.data", hasSize(3)));
         verify(personService, times(1)).getPersonList();
+    }
+
+    @Test
+    public void whenCallGetProjectsAPI_thenReturnProjectsList() throws Exception{
+
+        when(projectService.getProjectsList()).thenReturn(Lists.newArrayList(
+                new Project(1,"P0001", "ABC Project", 10, 5, 1, 2)
+                ,new Project(2,"P0002", "DEF Project", 11, 5, 1, 2)
+                ,new Project(3,"P0003", "GHT Project", 12, 5, 1, 2)));
+
+        mockMvc.perform(get("http://localhost:8080/projects"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0]['id']").value("1"))
+                .andExpect(jsonPath("$.data[0]['projectCode']").value("P0001"))
+                .andExpect(jsonPath("$.data[0]['projectName']").value("ABC Project"))
+                .andExpect(jsonPath("$.data[0]['totalCnt']").value(10))
+                .andExpect(jsonPath("$.data[0]['pmCnt']").value(5))
+                .andExpect(jsonPath("$.data[0]['devCnt']").value(1))
+                .andExpect(jsonPath("$.data[0]['cxCnt']").value(2))
+                .andExpect(jsonPath("$.data", hasSize(3)));
+        verify(projectService, times(1)).getProjectsList();
+
     }
 
 }

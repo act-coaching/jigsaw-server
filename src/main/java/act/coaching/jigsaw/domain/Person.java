@@ -70,6 +70,16 @@ public class Person {
         this.rank = rank;
     }
 
+    public Person(int id, String name, String email, String rank, String projectName, String projectCode, String duty) {
+        this.id = id;
+        this.name= name;
+        this.email = email;
+        this.rank = rank;
+        this.projectName = projectName;
+        this.projectCode = projectCode;
+        this.duty = duty;
+    }
+
 
     public int getId() {
         return id;
